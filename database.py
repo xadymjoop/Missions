@@ -6,16 +6,18 @@ import os  # Pour accéder aux variables d'environnement
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
+
 # Connexion à la base de données PostgreSQL
 def get_db_connection():
     try:
         conn = psycopg2.connect(
-            dbname=os.getenv("POSTGRES_DATABASE", "zeabur"),  # Nom de la base de données
-            user=os.getenv("POSTGRES_USER", "root"),         # Utilisateur PostgreSQL
-            password=os.getenv("POSTGRES_PASSWORD", "Agukb4d627HB09Lc8s5jnlUYK1GItap3"),  # Mot de passe
-            host=os.getenv("POSTGRES_HOST", "free.clusters.zeabur.com"),  # Hôte de la base de données
-            port=os.getenv("POSTGRES_PORT", "32237")         # Port de la base de données
+            dbname=os.getenv("DATABASE_NAME", "kb_missions"),  # Nom de la base de données
+            user=os.getenv("DATABASE_USER", "koyeb-adm"),  # Utilisateur PostgreSQL
+            password=os.getenv("DATABASE_PASSWORD", "YGfeJ2VS9lNu"),  # Mot de passe
+            host=os.getenv("DATABASE_HOST", "ep-round-cloud-a2pp70qu.eu-central-1.pg.koyeb.app"),  # Hôte de la base de données
+            port=os.getenv("DATABASE_PORT", "5432")  # Port de la base de données (par défaut 5432 pour PostgreSQL)
         )
+        
         return conn
     except psycopg2.Error as e:
         print(f"Erreur lors de la connexion à la base de données : {e}")

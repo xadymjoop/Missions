@@ -21,20 +21,38 @@ load_css()
 # Fonction pour récupérer le nombre de missions en cours
 def get_missions_en_cours():
     conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT COUNT(*) FROM missions WHERE statut = 'En cours'")
-    count = cursor.fetchone()[0]
-    conn.close()
-    return count
+    if conn:
+        try:
+            cursor = conn.cursor()
+            cursor.execute("SELECT COUNT(*) FROM missions WHERE statut = 'En cours'")
+            count = cursor.fetchone()[0]
+            return count
+        except Exception as e:
+            st.error(f"Erreur lors de la récupération des missions en cours : {e}")
+            return 0
+        finally:
+            conn.close()
+    else:
+        st.error("Impossible de se connecter à la base de données.")
+        return 0
 
 # Fonction pour récupérer le nombre d'utilisateurs actifs
 def get_utilisateurs_actifs():
     conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT COUNT(*) FROM utilisateurs")
-    count = cursor.fetchone()[0]
-    conn.close()
-    return count
+    if conn:
+        try:
+            cursor = conn.cursor()
+            cursor.execute("SELECT COUNT(*) FROM utilisateurs")
+            count = cursor.fetchone()[0]
+            return count
+        except Exception as e:
+            st.error(f"Erreur lors de la récupération des utilisateurs actifs : {e}")
+            return 0
+        finally:
+            conn.close()
+    else:
+        st.error("Impossible de se connecter à la base de données.")
+        return 0
 
 # Gestion de la session utilisateur
 if 'utilisateur' not in st.session_state:
@@ -43,7 +61,7 @@ if 'role' not in st.session_state:
     st.session_state['role'] = None
 
 # Sidebar pour la navigation
-st.sidebar.title("Navigation")
+st.sidebar.title("HOME")
 if st.session_state['utilisateur']:
     st.sidebar.write(f"Connecté en tant que : {st.session_state['utilisateur']} ({st.session_state['role']})")
     if st.sidebar.button("Se déconnecter"):
