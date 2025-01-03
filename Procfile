@@ -1,1 +1,1 @@
-streamlit run mission/Home.py --server.port=8000 --server.address=0.0.0.0
+web: streamlit run mission/Home.py --server.port=8000 --server.address=0.0.0.0
